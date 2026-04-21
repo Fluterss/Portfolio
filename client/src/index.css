@@ -1,0 +1,255 @@
+/*
+ * DESIGN PHILOSOPHY: Soft Gradient Glassmorphism — CV-Faithful
+ * Background: animated gradient mint → lavender → sky blue (matching CV)
+ * Cards: frosted glass (rgba white + backdrop-blur)
+ * Accent: cyan #00BCD4 / #00E5FF
+ * Text: dark navy #1C2B3A on light backgrounds
+ * Typography: Ubuntu (display, body) with Light/Medium/Bold weights
+ * Signature: grain texture, corner brackets, geometric triangle accents
+ */
+
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --font-display: 'Ubuntu', sans-serif;
+  --font-body: 'Ubuntu', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+:root {
+  --radius: 0.75rem;
+  /* Cyan accent */
+  --primary: oklch(0.72 0.18 200);
+  --primary-foreground: oklch(0.98 0 0);
+  /* Light glass surface */
+  --background: oklch(0.97 0.01 200);
+  --foreground: oklch(0.18 0.03 220);
+  --card: oklch(1 0 0 / 0.6);
+  --card-foreground: oklch(0.18 0.03 220);
+  --popover: oklch(1 0 0 / 0.9);
+  --popover-foreground: oklch(0.18 0.03 220);
+  --secondary: oklch(0.92 0.04 200);
+  --secondary-foreground: oklch(0.25 0.05 220);
+  --muted: oklch(0.94 0.02 200);
+  --muted-foreground: oklch(0.52 0.04 220);
+  --accent: oklch(0.88 0.08 195);
+  --accent-foreground: oklch(0.18 0.05 220);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(0.85 0.04 200 / 0.5);
+  --input: oklch(0.88 0.03 200 / 0.6);
+  --ring: oklch(0.72 0.18 200);
+  --chart-1: oklch(0.72 0.18 200);
+  --chart-2: oklch(0.65 0.15 270);
+  --chart-3: oklch(0.78 0.12 160);
+  --chart-4: oklch(0.60 0.20 230);
+  --chart-5: oklch(0.80 0.10 180);
+  --sidebar: oklch(0.95 0.03 200 / 0.8);
+  --sidebar-foreground: oklch(0.18 0.03 220);
+  --sidebar-primary: oklch(0.72 0.18 200);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.88 0.08 195);
+  --sidebar-accent-foreground: oklch(0.18 0.05 220);
+  --sidebar-border: oklch(0.85 0.04 200 / 0.4);
+  --sidebar-ring: oklch(0.72 0.18 200);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 400;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled),
+  a[href],
+  select:not(:disabled),
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled) {
+    @apply cursor-pointer;
+  }
+}
+
+@layer components {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      max-width: 1280px;
+    }
+  }
+
+  /* Glass card utility */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 8px 32px rgba(0, 188, 212, 0.08), 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  /* Grain texture overlay */
+  .grain-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.4;
+  }
+
+  /* Corner bracket decoration */
+  .corner-bracket {
+    position: relative;
+  }
+  .corner-bracket::before,
+  .corner-bracket::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-color: #00BCD4;
+    border-style: solid;
+  }
+  .corner-bracket::before {
+    top: -4px;
+    left: -4px;
+    border-width: 2px 0 0 2px;
+  }
+  .corner-bracket::after {
+    bottom: -4px;
+    right: -4px;
+    border-width: 0 2px 2px 0;
+  }
+
+  /* Cyan accent text */
+  .text-cyan-accent {
+    color: #00BCD4;
+  }
+
+  /* Section number style */
+  .section-number {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: #00BCD4;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+}
+
+/* Gradient background animation */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.gradient-bg {
+  background: linear-gradient(
+    135deg,
+    #c8f0f5 0%,
+    #dde8f8 20%,
+    #e8d8f0 40%,
+    #d0eaf5 60%,
+    #c5f0e8 80%,
+    #dde0f8 100%
+  );
+  background-size: 300% 300%;
+  animation: gradientShift 12s ease infinite;
+}
+
+/* Scroll reveal animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Skill tag hover */
+.skill-tag {
+  transition: all 0.2s ease;
+}
+.skill-tag:hover {
+  background: rgba(0, 188, 212, 0.2);
+  border-color: #00BCD4;
+  transform: translateY(-2px);
+}
